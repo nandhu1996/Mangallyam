@@ -3,7 +3,9 @@ package com.giga_appz.newmatrimony;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.widget.Toast;
 
@@ -27,8 +29,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     // Contacts Table Columns names
     private static final String KEY_ID = "id";
-    private static final String KEY_NAME = "name";
-
+    private static final String KEY_AGE = "age";
+    private static final String KEY_EDU = "education";
+    private static final String KEY_PHOTO = "photo";
+    private static final String KEY_LOCATION = "location";
+    SQLiteDatabase db = this.getWritableDatabase();
     public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -37,7 +42,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_PROFILE_TABLE = "CREATE TABLE " + TABLE_PROFILE + "("
-                + KEY_ID + " TEXT," + KEY_NAME + " TEXT)";
+                + KEY_ID + " TEXT," + KEY_AGE + " TEXT"+ KEY_EDU+ " TEXT,"+ KEY_PHOTO + " BLOB,"+ KEY_LOCATION + " TEXT)";
         db.execSQL(CREATE_PROFILE_TABLE);
     }
 
@@ -56,7 +61,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(TABLE_PROFILE, new String[] { KEY_ID,
-                        KEY_NAME }, KEY_ID + "=?",
+                        KEY_AGE }, KEY_ID + "=?",
                 new String[] { String.valueOf(id) }, null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
@@ -68,18 +73,56 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     // Adding new contact
-    public void addProfile(Profilesoffline profile) {
+    /*public void addProfile(Profilesoffline profile) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(KEY_NAME, profile.getName());
+        values.put(KEY_AGE, profile.getName());
         values.put(KEY_ID, profile.getId());
 
         // Inserting Row
         db.insert(TABLE_PROFILE, null, values);
 
         db.close();
+    }*/
+
+   /* public void addProfile(String id,String age,String education,byte[] photo,String location) throws SQLiteException {
+        ContentValues cv = new  ContentValues();
+        SQLiteDatabase db = this.getWritableDatabase();
+        cv.put(KEY_AGE,    age);
+        cv.put(KEY_PHOTO,   photo);
+        cv.put(KEY_ID,   id);
+        cv.put(KEY_LOCATION,   location);
+        cv.put(KEY_EDU,   education);
+        db.insert( TABLE_PROFILE, null, cv );
+    }*/
+    public void addProfile(Profilesoffline profile) {
+        ContentValues cv = new ContentValues();
+
+        cv.put(KEY_AGE,    profile.age);
+        cv.put(KEY_PHOTO, Utility.getBytes(profile.getPhoto()));
+        cv.put(KEY_ID,   profile.getId());
+        cv.put(KEY_LOCATION,   profile.getLocation());
+        cv.put(KEY_EDU,   profile.getEducation());
+        db.insert( TABLE_PROFILE, null, cv );
     }
+    public Profilesoffline retriveDetails() throws SQLException {
+        Cursor cur = db.query(true, TABLE_PROFILE, new String[] { KEY_ID,
+                KEY_AGE, KEY_EDU,KEY_PHOTO,KEY_LOCATION }, null, null, null, null, null, null);
+        if (cur.moveToFirst()) {
+            byte[] blob = cur.getBlob(cur.getColumnIndex(KEY_PHOTO));
+            String age = cur.getString(cur.getColumnIndex(KEY_AGE));
+            String id = cur.getString(cur.getColumnIndex(KEY_ID));
+            String edu = cur.getString(cur.getColumnIndex(KEY_EDU));
+            String loc = cur.getString(cur.getColumnIndex(KEY_LOCATION));
+            cur.close();
+            return new Profilesoffline(id,age,edu,Utility.getPhoto(blob),loc);
+        }
+        cur.close();
+        return null;
+    }
+
+/*
 
     // Getting All Contacts
     public List<Profilesoffline> getAllContacts() {
@@ -95,7 +138,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             do {
                 Profilesoffline contact = new Profilesoffline();
                 contact.setId(cursor.getString(0));
-                contact.setName(cursor.getString(1));
+                contact.setAge(cursor.getString(1));
                 // Adding contact to list
                 contactList.add(contact);
             } while (cursor.moveToNext());
@@ -104,5 +147,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         // return contact list
         return contactList;
     }
+*/
 
 }

@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.widget.AbsListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -41,6 +42,9 @@ public class FirstFragment extends Fragment implements  CustomOnClick {
     Matcheslist matches;
     RecyclerviewAdapter adapter;
     RecyclerView recyclerView;
+
+    private boolean userScrolled = true;
+    int pastVisiblesItems, visibleItemCount, totalItemCount;
     DatabaseHandler db;
     List<Matcheslist> list = new ArrayList<Matcheslist>();
     private static String TAG = MainActivity.class.getSimpleName();
@@ -141,12 +145,63 @@ public class FirstFragment extends Fragment implements  CustomOnClick {
         adapter = new RecyclerviewAdapter(getActivity(), list);
         adapter.setOnItemClickListener(this);
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler);
-        LinearLayoutManager manager = new LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false);
+        final LinearLayoutManager manager = new LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
         db = new DatabaseHandler(getActivity());
+
+
+        recyclerView
+                .addOnScrollListener(new RecyclerView.OnScrollListener() {
+
+                    @Override
+                    public void onScrollStateChanged(RecyclerView recyclerView,
+                                                     int newState) {
+
+                        super.onScrollStateChanged(recyclerView, newState);
+
+                        // If scroll state is touch scroll then set userScrolled
+                        // true
+                        if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
+                            userScrolled = true;
+
+                        }
+
+                    }
+
+                    @Override
+                    public void onScrolled(RecyclerView recyclerView, int dx,
+                                           int dy) {
+
+                        super.onScrolled(recyclerView, dx, dy);
+                        // Here get the child count, item count and visibleitems
+                        // from layout manager
+
+                        visibleItemCount = manager.getChildCount();
+                        totalItemCount = manager.getItemCount();
+                        pastVisiblesItems = manager
+                                .findFirstVisibleItemPosition();
+
+                        // Now check if userScrolled is true and also check if
+                        // the item is end then update recycler view and set
+                        // userScrolled to false
+                        if (userScrolled
+                                && (visibleItemCount + pastVisiblesItems) == totalItemCount) {
+                            userScrolled = false;
+
+
+                        }
+
+                    }
+
+                });
+
+
+
+
         return rootView;
     }
+
 
     @Override
     public void onItemClick(View view, int position) {

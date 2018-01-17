@@ -5,17 +5,16 @@ package com.giga_appz.newmatrimony;
  */
 
 public class Matcheslist {
-    private String name,email,home,mobile,id,photo;
-    public Matcheslist(String name, String email, String mobile, String home, String id, String photo){
-        this.name=name;
-        this.email=email;
-        this.mobile=mobile;
+    private String age,education,home,mobile,id,photo;
+    public Matcheslist(String age, String education, String home, String id, String photo){
+        this.age=age;
+        this.education=education;
         this.id=id;
         this.home=home;
         this.photo=photo;
     }
-    public String getName(){
-        return name;
+    public String getAge(){
+        return age;
     }
     public String getHome(){
         return home;
@@ -26,8 +25,8 @@ public class Matcheslist {
     public String getPhoto(){
         return photo;
     }
-    public String getEmail(){
-        return  email;
+    public String getEducation(){
+        return  education;
     }
     /*public  String getHome(){
         return home;

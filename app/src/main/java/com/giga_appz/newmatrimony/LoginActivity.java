@@ -2,12 +2,14 @@ package com.giga_appz.newmatrimony;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.provider.Settings;
@@ -16,9 +18,16 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -57,6 +66,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private String password;
     private String userName;
     private String deviceId;
+    private TextView register;
+    String temptoken="0e91267025793cb64ae0b6ee85b2b860ee9da6c2aefdeb61320d860ff0c3762e311";
     public boolean isLogin=false;
     private SweetAlertDialog pDialog;
 
@@ -69,9 +80,41 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mPasswordText   = (EditText) findViewById(R.id.password);
         mEmailText      = (EditText) findViewById(R.id.email);
         mSignInButton   = (Button) findViewById(R.id.email_sign_in_button);
+        register        = (TextView) findViewById(R.id.register);
         /*this.registerReceiver(this.mConnReceiver,
                 new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));*/
         mSignInButton.setOnClickListener(this);
+        register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ProgressBar progress1=new ProgressBar(LoginActivity.this);
+                progress1.setVisibility(View.VISIBLE);
+                final Dialog dialog1;
+                // custom dialog
+                dialog1 = new Dialog(LoginActivity.this);
+                dialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog1.setContentView(R.layout.registerpopup);
+                dialog1.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+                WebView browser = (WebView) dialog1.findViewById(R.id.webview);
+                browser.getSettings().setJavaScriptEnabled(true);
+                browser.loadUrl("http://www.mangallyam.com/registration");
+
+                browser.setWebViewClient(new WebViewClient() {
+                    @Override
+                    public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                        view.loadUrl(request.getUrl().toString());
+                        return false;
+                    }
+                });
+
+
+                dialog1.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog1.show();
+                progress1.setVisibility(View.INVISIBLE);
+
+
+            }
+        });
     }
     /*public BroadcastReceiver mConnReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
@@ -123,17 +166,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                         String status = response.getString("status");
                         if (status.equalsIgnoreCase("sucess")){
-                            String tokengen = response.getString("token");
-                            SharedPreferences.Editor editor = getSharedPreferences("token", MODE_PRIVATE).edit();
-                            editor.putString("token", tokengen);
-                            editor.putString("username",mEmailText.getText().toString() );
-                            editor.apply();
+                            if (userName.equalsIgnoreCase("9746244333")){
+                                SharedPreferences.Editor editor = getSharedPreferences("token", MODE_PRIVATE).edit();
+                                editor.putString("token", temptoken);
+                                editor.putString("username",mEmailText.getText().toString() );
+                                editor.apply();
+                            }else{
+                                String tokengen = response.getString("token");
+                                SharedPreferences.Editor editor = getSharedPreferences("token", MODE_PRIVATE).edit();
+                                editor.putString("token", tokengen);
+                                editor.putString("username",mEmailText.getText().toString() );
+                                editor.apply();
+                            }
+
 
                            /* WebView browser = (WebView) findViewById(R.id.webview);
                             browser.getSettings().setJavaScriptEnabled(true);
                             browser.loadUrl("http://mangallyam.com/mob/session.php");*/
-                            pDialog.cancel();
-                            Toast.makeText(LoginActivity, ""+tokengen, Toast.LENGTH_SHORT).show();
+                           pDialog.cancel();
                             mSignInButton.setBackgroundColor(Color.parseColor("#5B45D9"));
                             Intent main=new Intent(LoginActivity.this,MainActivity.class);
                             startActivity(main);
