@@ -2,6 +2,7 @@ package com.giga_appz.newmatrimony;
 
 import android.content.Context;
 import android.net.Uri;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +14,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.NetworkImageView;
-import com.mikhaellopez.circularimageview.CircularImageView;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -46,14 +48,18 @@ public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapte
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Matcheslist list=matcheslists.get(position);
-        holder.name.setText(""+list.getName());
-        holder.email.setText(""+list.getEmail());
-        holder.mobile.setText(""+list.getMobile());
+        holder.age.setText(""+list.getAge());
+        holder.education.setText(" , "+list.getEducation());
+        holder.place.setText(""+list.getHome());
         holder.id.setText(""+list.getId());
         /*File imgFile = new  File("https://unaccommodating-com.000webhostapp.com/priestDetails/php/"+list.getPhoto());
         holder.profileMain.setImageURI(Uri.fromFile(imgFile));*/
-        imageopen="https://unaccommodating-com.000webhostapp.com/priestDetails/php/"+list.getPhoto();
-        Picasso.with(context).load(imageopen).into(holder.profileMain);
+        imageopen="http://www.mangallyam.com/public/images/profile/dp_170/"+list.getPhoto();
+        //Picasso.with(context).load(imageopen).into(holder.profileMain);
+        Glide.with(context)
+                .load(imageopen)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(holder.profileMain);
         //holder.profileMain.setImageURI(Uri.parse(imageopen));
 
 
@@ -67,57 +73,25 @@ public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapte
         return matcheslists.size();
 
     }
-    private void customDialog(){
-        /*Dialog dialog;
 
-        private void showDialog() {
-            // custom dialog
-            dialog = new Dialog(this);
-            dialog.setContentView(R.layout.custom_dialog);
-
-            // set the custom dialog components - text, image and button
-            ImageButton close = (ImageButton) dialog.findViewById(R.id.btnClose);
-            Button buy = (Button) dialog.findViewById(R.id.btnBuy);
-
-            // Close Button
-            close.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dialog.dismiss();
-                    //TODO Close button action
-                }
-            });
-
-            // Buy Button
-            buy.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dialog.dismiss();
-                    //TODO Buy button action
-                }
-            });
-
-            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
-            dialog.show();
-        }*/
-    }
 
     public class MyViewHolder extends RecyclerView.ViewHolder  implements View.OnClickListener {
 
-        private TextView name, email, mobile,id;
+        private TextView age, education, place,id;
         private ImageView profileEnlarge,profileMain;
+        private CardView cardView;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             id = (TextView) itemView.findViewById(R.id.profileid);
-            name = (TextView) itemView.findViewById(R.id.name);
-            email = (TextView) itemView.findViewById(R.id.age);
-            mobile = (TextView) itemView.findViewById(R.id.place);
-            //profileEnlarge= (CircularImageView) itemView.findViewById(R.id.profile_image);
+            age = (TextView) itemView.findViewById(R.id.age);
+            education = (TextView) itemView.findViewById(R.id.education);
+            place = (TextView) itemView.findViewById(R.id.place);
             profileMain= (ImageView) itemView.findViewById(R.id.profile_image);
+            cardView= (CardView) itemView.findViewById(R.id.card_view);
             profileMain.setOnClickListener(this);
-            itemView.setOnClickListener(this);
+            cardView.setOnClickListener(this);
+            //itemView.setOnClickListener(this);
 
         }
 
