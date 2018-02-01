@@ -165,19 +165,31 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         result = response.getString("status");
 
                         String status = response.getString("status");
+<<<<<<< HEAD
                         if (status.equalsIgnoreCase("sucess")){/*
+=======
+                        if (status.equalsIgnoreCase("sucess")){
+>>>>>>> d87d3994881a0f5a6128334d67cbc189539470e5
                             if (userName.equalsIgnoreCase("9746244333")){
                                 SharedPreferences.Editor editor = getSharedPreferences("token", MODE_PRIVATE).edit();
                                 editor.putString("token", temptoken);
                                 editor.putString("username",mEmailText.getText().toString() );
                                 editor.apply();
+<<<<<<< HEAD
                             }else{*/
+=======
+                            }else{
+>>>>>>> d87d3994881a0f5a6128334d67cbc189539470e5
                                 String tokengen = response.getString("token");
                                 SharedPreferences.Editor editor = getSharedPreferences("token", MODE_PRIVATE).edit();
                                 editor.putString("token", tokengen);
                                 editor.putString("username",mEmailText.getText().toString() );
                                 editor.apply();
+<<<<<<< HEAD
 
+=======
+                            }
+>>>>>>> d87d3994881a0f5a6128334d67cbc189539470e5
 
 
                            /* WebView browser = (WebView) findViewById(R.id.webview);

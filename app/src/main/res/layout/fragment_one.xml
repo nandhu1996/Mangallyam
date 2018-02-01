@@ -5,6 +5,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+<<<<<<< HEAD
     <RelativeLayout
         android:id="@+id/loadingmain"
         android:layout_width="wrap_content"
@@ -44,6 +45,8 @@
                 android:text="Loading Profile..."/>-->
         </RelativeLayout>
     </RelativeLayout>
+=======
+>>>>>>> d87d3994881a0f5a6128334d67cbc189539470e5
   <TextView
       android:id="@+id/nocontent"
       android:layout_width="wrap_content"

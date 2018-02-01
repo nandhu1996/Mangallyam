@@ -102,6 +102,11 @@ public class Blockedprofile extends Fragment implements CustomOnClick {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = getActivity();
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> d87d3994881a0f5a6128334d67cbc189539470e5
     }
 
 

@@ -21,8 +21,11 @@ import com.giga_appz.newmatrimony.messages.Requestsent;
 import com.giga_appz.newmatrimony.messages.SeventhFragment;
 import com.giga_appz.newmatrimony.messages.SixthFragment;
 import com.giga_appz.newmatrimony.home.ThirdFragment;
+<<<<<<< HEAD
 import com.giga_appz.newmatrimony.search.SearchAdvanced;
 import com.giga_appz.newmatrimony.search.SearchById;
+=======
+>>>>>>> d87d3994881a0f5a6128334d67cbc189539470e5
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -88,10 +91,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 break;
             case 2:
+<<<<<<< HEAD
                 adapter.addFragment(new SecondFragment(), "Search");
                 adapter.addFragment(new SearchById(), "Search by id");
                 adapter.addFragment(new SearchAdvanced(), "Advanced search");
 
+=======
+                adapter.addFragment(new ThirdFragment(), "T_Tab 1");
+                adapter.addFragment(new SecondFragment(), "T_Tab 2");
+                adapter.addFragment(new ThirdFragment(), "T_Tab 3");
+>>>>>>> d87d3994881a0f5a6128334d67cbc189539470e5
                 break;
             case 3:
                 adapter.addFragment(new ThirdFragment(), "T_Tab 1");

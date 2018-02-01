@@ -10,7 +10,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+<<<<<<< HEAD
 import android.graphics.drawable.Drawable;
+=======
+>>>>>>> d87d3994881a0f5a6128334d67cbc189539470e5
 import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -86,8 +89,12 @@ public class FirstFragment extends Fragment implements CustomOnClick {
     TextView nocontent;
     RecyclerviewAdapter adapter;
     RecyclerView recyclerView;
+<<<<<<< HEAD
     ImageView imageload;
     RelativeLayout bottomLayout,loadingmain;
+=======
+    RelativeLayout bottomLayout;
+>>>>>>> d87d3994881a0f5a6128334d67cbc189539470e5
     TextView noContent;
     String temptoken="0e91267025793cb64ae0b6ee85b2b860ee9da6c2aefdeb61320d860ff0c3762e311";
     Profilesoffline employee_One;
@@ -117,6 +124,7 @@ public class FirstFragment extends Fragment implements CustomOnClick {
     public void makeJsonArrayRequest() {
         if (isNetworkConnected()){
         SharedPreferences sharedpreferences = getActivity().getSharedPreferences("token", Context.MODE_PRIVATE);
+<<<<<<< HEAD
             loadingmain.setVisibility(View.VISIBLE);
             /*final Dialog dialog;
             // custom dialog
@@ -132,6 +140,12 @@ public class FirstFragment extends Fragment implements CustomOnClick {
        progress.setCancelable(false);
         progress.setMessage("Loading..");
         progress.show();*/
+=======
+        final ProgressDialog progress = new ProgressDialog(getActivity());
+       progress.setCancelable(false);
+        progress.setMessage("Loading..");
+        progress.show();
+>>>>>>> d87d3994881a0f5a6128334d67cbc189539470e5
         JsonArrayRequest req = new JsonArrayRequest(urlJsonArry+sharedpreferences.getString("token", "")+urlaftertk+page+urlafterpage,
                 new Response.Listener<JSONArray>() {
                     @Override
@@ -169,10 +183,16 @@ public class FirstFragment extends Fragment implements CustomOnClick {
                                     //System.out.println("database"+employee_One.getAge());
                                     matches = new Matcheslist(age, education, home, id, photo);
                                     list.add(matches);
+<<<<<<< HEAD
                                     adapter.notifyDataSetChanged();
                                     /*if (progress.isShowing()) {
                                         progress.dismiss();
                                     }*/
+=======
+                                    if (progress.isShowing()) {
+                                        progress.dismiss();
+                                    }
+>>>>>>> d87d3994881a0f5a6128334d67cbc189539470e5
 
                                 }
                             }
@@ -180,6 +200,7 @@ public class FirstFragment extends Fragment implements CustomOnClick {
                             // txtResponse.setText(jsonResponse);
 
                         } catch (JSONException e) {
+<<<<<<< HEAD
                             //progress.dismiss();
                             //dialog.dismiss();
                             loadingmain.setVisibility(View.INVISIBLE);
@@ -189,6 +210,13 @@ public class FirstFragment extends Fragment implements CustomOnClick {
                             //progress.dismiss();
                             //dialog.dismiss();
                             loadingmain.setVisibility(View.INVISIBLE);
+=======
+                            progress.dismiss();
+                            e.printStackTrace();
+
+                        } finally {
+                            progress.dismiss();
+>>>>>>> d87d3994881a0f5a6128334d67cbc189539470e5
                             adapter.notifyDataSetChanged();
                         }
 
@@ -197,9 +225,13 @@ public class FirstFragment extends Fragment implements CustomOnClick {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+<<<<<<< HEAD
                 //dialog.dismiss();
                 loadingmain.setVisibility(View.INVISIBLE);
                 //progress.dismiss();
+=======
+                progress.dismiss();
+>>>>>>> d87d3994881a0f5a6128334d67cbc189539470e5
 
             }
         });
@@ -288,6 +320,7 @@ public class FirstFragment extends Fragment implements CustomOnClick {
         //browser.loadUrl("");
         bottomLayout = (RelativeLayout) rootView
                 .findViewById(R.id.loadItemsLayout_listView);
+<<<<<<< HEAD
         loadingmain= (RelativeLayout) rootView.findViewById(R.id.loadingmain);
        /* imageload= (ImageView) rootView.findViewById(R.id.imageload);
         String uri = "@drawable/logomain";  // where myresource (without the extension) is the file
@@ -295,6 +328,9 @@ public class FirstFragment extends Fragment implements CustomOnClick {
         int imageResource = getResources().getIdentifier(uri, null, getActivity().getPackageName());
         Drawable res = getResources().getDrawable(imageResource);
         imageload.setImageDrawable(res);*/
+=======
+
+>>>>>>> d87d3994881a0f5a6128334d67cbc189539470e5
             makeJsonArrayRequest();
 
 
@@ -302,7 +338,10 @@ public class FirstFragment extends Fragment implements CustomOnClick {
         adapter.setOnItemClickListener(this);
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler);
         nocontent= (TextView) rootView.findViewById(R.id.nocontent);
+<<<<<<< HEAD
 
+=======
+>>>>>>> d87d3994881a0f5a6128334d67cbc189539470e5
         final LinearLayoutManager manager = new LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
